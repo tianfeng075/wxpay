@@ -11,7 +11,6 @@ CREATE TABLE `wx_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 comment='微信配置表';
 
-insert  into 
-	`wx_config`(`appid`,`appsecret`,`apptoken`,`accesstoken`,`accesssystime`,`accessintime`,`updatetime`)
-values 
-	('wxb3a1aa09d69eb8a8','6d1b840a0397e402248ae87087ed5a4c','dkjfieqw1234juuu','',0,0,0);
+INSERT INTO `wx_config` (`id`, `appid`, `appsecret`, `apptoken`, `accesstoken`, `accesssystime`, `accessintime`, `updatetime`) VALUES ('1', 'wx9d9fa7e8979ecf7c', '8d55c714cd37a300354ff10a54b0c7ba', '96a4d427b2f399ebd34e16accd05ed68', 'e2Vq2lU--dyfwfNp4HpGrzud_sHnwWTzyYZ5pe45JSftHkjy3gfVRBlSb-VrU90CzCdcaCRe3Rk6mt5jqrownmFF1WHV-ZtrVhdc95EU7CQTs_67yyRsBYz5F78EjtTXMEPbACAUMX', '1497489063', '7200', '1497489064');
+INSERT INTO `wx_config` (`id`, `appid`, `appsecret`, `apptoken`, `accesstoken`, `accesssystime`, `accessintime`, `updatetime`) VALUES ('2', 'wxb3a1aa09d69eb8a8', '6d1b840a0397e402248ae87087ed5a4c', 'dkjfieqw1234juuu', '6xP3BWd5YlJ-9iL6zcE5HHAnh9IthTXzxoKqNg4b0gNYSRVU2HJazIK-2Kz2R-gdHbxvcg6aimTWpgHz1-PbiVELWFPiPyaRMp0xGcCI3ZFAGls8Oov1b8fDIes_k7f_MVLeAFABKA', '1497432528', '7200', '1497432539');
+

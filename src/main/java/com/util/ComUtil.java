@@ -9,20 +9,11 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
-import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
 public class ComUtil {
 	
-	private static Gson gson = new Gson();
 	
-	public static <T> T fromJson(String str, Class<T> c) {
-		return gson.fromJson(str, c);
-	}
-	
-	public static <T> String toJson(T t) {
-		return gson.toJson(t);
-	}
 
     @SuppressWarnings({ "unchecked" })
     public static <T> T fromXML(String content,Class<T> c) throws InstantiationException, IllegalAccessException {
@@ -99,6 +90,7 @@ public class ComUtil {
 	public static httpsRsp httpsGetSend(String url) throws HttpException, IOException {
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
+        getMethod.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");
         int code = httpClient.executeMethod(getMethod);
         String desc = getMethod.getResponseBodyAsString();
         return new httpsRsp(code,desc);

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.util.ComUtil;
+import com.util.XmlUtil;
 import com.weixin.Dao;
 import com.weixin.WeixinClient;
+import com.weixin.client.node.WeixinButtonNode;
 import com.weixin.client.node.WeixinMenuClickNode;
-import com.weixin.client.node.WeixinMenuNode;
 import com.weixin.client.node.WeixinMenuViewNode;
 import com.weixin.client.node.WeixinSubMenuNode;
 import com.weixin.entity.WXConfigNode;
@@ -78,11 +78,25 @@ public class WXClientController {
 	}
 	
 	/**
+	 * 获取菜单
+	 * @return
+	 */
+	@RequestMapping("getmenu.do")
+	public @ResponseBody String getmenu() {
+		String strRs = WeixinClient.menuInfo();
+		if (strRs==null)
+			return "fail";
+		return strRs;
+	}
+	
+	
+	
+	/**
 	 * 获取新增菜单数据
 	 * @return
 	 */
 	private static String getData() {
-		WeixinMenuNode menu = new WeixinMenuNode();
+		WeixinButtonNode menu = new WeixinButtonNode();
 		List<Object> list = new ArrayList<Object>();
 		menu.setButton(list);
 		
@@ -118,6 +132,6 @@ public class WXClientController {
 		clickNode2.setKey("V1001_GOOD");
 		subList.add(clickNode2);
 		
-		return ComUtil.toJson(menu);
+		return XmlUtil.toJson(menu);
 	}
 }

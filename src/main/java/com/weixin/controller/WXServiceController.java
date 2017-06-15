@@ -13,11 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.util.ComUtil;
-import com.util.WeixinMsg;
 import com.weixin.WeixinService;
-import com.weixin.node.AcceptMsgNode;
-import com.weixin.node.ReceiveMsgNode;
 
 @Controller
 public class WXServiceController {
@@ -34,16 +30,14 @@ public class WXServiceController {
        boolean isGet = request.getMethod().toLowerCase().equals("get");
        PrintWriter print;
        if (isGet) {
-           // 微信加密签名
-           String signature = request.getParameter("signature");
-           // 时间戳
-           String timestamp = request.getParameter("timestamp");
-           // 随机数
-           String nonce = request.getParameter("nonce");
-           // 随机字符串
-           String echostr = request.getParameter("echostr");
+           String signature = request.getParameter("signature");// 微信加密签名
+           String timestamp = request.getParameter("timestamp");// 时间戳
+           String nonce = request.getParameter("nonce");// 随机数
+           String echostr = request.getParameter("echostr");// 随机字符串
            logger.info("signature="+signature);
+           logger.info("timestamp="+timestamp);
            logger.info("nonce="+nonce);
+           logger.info("echostr="+echostr);
            // 通过检验signature对请求进行校验，若校验成功则原样返回echostr，表示接入成功，否则接入失败
            if (signature != null && WeixinService.checkSignature(signature, timestamp, nonce)) {
                try {
@@ -55,32 +49,16 @@ public class WXServiceController {
                }
            }
        } else {
-       	try {
-       		String strAccept = IOUtils.toString(request.getInputStream(),"utf-8");
-       		AcceptMsgNode acceptNode = ComUtil.fromXML(strAccept,AcceptMsgNode.class);
-       		
-       		String fromMsgType = ComUtil.fromCDATA(acceptNode.getMsgType());
-       		String fromContent = ComUtil.fromCDATA(acceptNode.getContent());
-       		WeixinMsg msg = WeixinService.dealMsg(new WeixinMsg(fromMsgType,fromContent));
-       		String toMsgType;
-       		String content;
-       		if (msg==null || msg.getMsgType()==null || msg.getContent()==null) {
-       			toMsgType = ComUtil.toCDATA("text");
-       			content = "fail";
-       		} else {
-       			toMsgType = ComUtil.toCDATA(msg.getMsgType());
-       			content = ComUtil.toCDATA(msg.getContent());
-       		}
-
-   		   ReceiveMsgNode receiveNode = new ReceiveMsgNode(acceptNode.getFromUserName(),acceptNode.getToUserName(),acceptNode.getCreateTime(),toMsgType,content);
-   		   String strReceive = ComUtil.toXML(receiveNode,ReceiveMsgNode.class);
-   		   
-   		   response.setContentType("text/html;charset=UTF-8");
-   		   PrintWriter pw = response.getWriter();
-   		   pw.write(strReceive);
-   		   pw.flush();
-			} catch (InstantiationException | IllegalAccessException | IOException e) {
-				e.printStackTrace();
+    	   try {
+	       		String strAccept = IOUtils.toString(request.getInputStream(),"utf-8");
+	       		String strReceive = WeixinService.dealMsg(strAccept);
+	       		response.setContentType("text/html;charset=UTF-8");
+	       		PrintWriter pw = response.getWriter();
+	       		pw.write(strReceive);
+	       		pw.flush();
+       		} catch (IOException e) {
+				//e.printStackTrace();
+				logger.error(e.toString());
 			}
        }
    }

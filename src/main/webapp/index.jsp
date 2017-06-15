@@ -25,6 +25,9 @@
 <form action="addmenu.do">
 	重置菜单<input type="submit">
 </form>
+<form action="getmenu.do">
+	获取菜单<input type="submit">
+</form>
 <!-- <span>当前IP：<%=request.getRemoteAddr() %></span> -->
 </body>
 </html>

@@ -1,15 +1,13 @@
 package com.weixin.client.node;
 
-import java.util.List;
-
 public class WeixinMenuNode {
-	private List<Object> button;
+	private WeixinButtonNode menu;
 
-	public List<Object> getButton() {
-		return button;
+	public WeixinButtonNode getMenu() {
+		return menu;
 	}
 
-	public void setButton(List<Object> button) {
-		this.button = button;
+	public void setMenu(WeixinButtonNode menu) {
+		this.menu = menu;
 	}
 }

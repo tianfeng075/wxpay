@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import com.util.ComUtil;
 import com.util.HttpsWeixin;
+import com.util.XmlUtil;
 import com.weixin.client.node.WeixinAccessTokenNode;
 import com.weixin.client.node.WeixinCallbackIPNode;
+import com.weixin.client.node.WeixinMenuNode;
 import com.weixin.entity.WXConfigNode;
 
 public class WeixinClient {
@@ -62,24 +64,32 @@ public class WeixinClient {
 	public static String getWXIP() {
 		if (!checkToken())
 			return null;
-		WeixinCallbackIPNode result = HttpsWeixin.getCallbackIP(accesstoken);
+		WeixinCallbackIPNode result = HttpsWeixin.getWXIP(accesstoken);
 		if (result==null)
 			return null;
 		
-		return ComUtil.toJson(result);
-	}
-	
-	public static boolean menuDelete() {
-		if (!checkToken())
-			return false;
-		return HttpsWeixin.getMenuDelete(accesstoken);
+		return XmlUtil.toJson(result);
 	}
 	
 	public static boolean menuAdd(String data) {
 		if (!checkToken())
 			return false;
-		return HttpsWeixin.getMenuAdd(accesstoken,data);
+		return HttpsWeixin.menuAdd(accesstoken,data);
 	}
 	
+	public static boolean menuDelete() {
+		if (!checkToken())
+			return false;
+		return HttpsWeixin.menuDel(accesstoken);
+	}
 	
+	public static String menuInfo() {
+		if (!checkToken())
+			return null;
+		WeixinMenuNode info = HttpsWeixin.menuInfo(accesstoken);
+		if (info==null)
+			return null;
+		String strRs = XmlUtil.toJson(info);
+		return strRs;
+	}
 }
